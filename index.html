@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mate II: Un Mundo por Explorar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<main>
+  <section class="hero">
+    <div class="kicker">Cálculo Integral · Tecnología en Desarrollo de Software · UTP</div>
+    <h1>Un mundo de integrales por explorar.</h1>
+    <p>Catorce módulos, uno por cada método visto en el curso: desde las sumas de Riemann hasta la integración por partes.
+    Fase 1 trae los seis primeros completamente interactivos; el resto llega en las siguientes fases del semestre.</p>
+  </section>
+
+  <div class="module-section">
+    <h2>Sección A — Métodos Numéricos y Área</h2>
+    <ul class="module-list" id="list-numericos"></ul>
+  </div>
+
+  <div class="module-section">
+    <h2>Sección B — Métodos de Integración</h2>
+    <ul class="module-list" id="list-integracion"></ul>
+  </div>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="assets/js/modules-catalog.js"></script>
+<script src="assets/js/common.js"></script>
+<script>
+  initSite("");
+
+  function renderList(listId, sectionKey) {
+    const ul = document.getElementById(listId);
+    ul.innerHTML = MODULES_CATALOG.filter(m => m.section === sectionKey).map(m => `
+      <li>
+        <a href="${m.path}">
+          <span class="mod-num">${String(m.id).padStart(2, "0")}</span>
+          <span class="mod-title">${m.title}</span>
+          <span class="mod-status tag ${m.status}">${m.status === "activo" ? "Disponible" : `Próximamente · ${m.phase}`}</span>
+        </a>
+      </li>
+    `).join("");
+  }
+  renderList("list-numericos", "numericos");
+  renderList("list-integracion", "integracion");
+</script>
+</body>
+</html>

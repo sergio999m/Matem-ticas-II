@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Módulo 11 — Próximamente — Mate II</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-modulo-id="11">
+<div id="site-header"></div>
+<main>
+  <div id="placeholder-content"></div>
+  <a class="back-link" href="../index.html">← Volver a todos los módulos</a>
+</main>
+<div id="site-footer"></div>
+<script src="../assets/js/modules-catalog.js"></script>
+<script src="../assets/js/common.js"></script>
+<script>
+  initSite("../");
+  const modId = parseInt(document.body.dataset.moduloId, 10);
+  const mod = MODULES_CATALOG.find(m => m.id === modId);
+  document.title = mod.title + " — Próximamente — Mate II";
+  document.getElementById("placeholder-content").innerHTML = `
+    <div class="module-header">
+      <div class="eyebrow">Módulo ${String(mod.id).padStart(2,"0")} · Sección B — Métodos de Integración</div>
+      <h1>${mod.title}</h1>
+    </div>
+    <div class="placeholder-box">
+      <div class="badge">Próximamente · ${mod.phase}</div>
+      <p style="margin:0 auto;">Este módulo se desarrollará como parte de ${mod.phase} del proyecto semestral
+      "Mate II: Un Mundo por Explorar". Vuelve más adelante o usa el buscador para revisar los módulos ya disponibles.</p>
+    </div>
+  `;
+</script>
+</body>
+</html>

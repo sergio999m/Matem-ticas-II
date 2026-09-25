@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mis Trabajos — Mate II</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<div id="site-header"></div>
+
+<main>
+  <div class="module-header">
+    <div class="eyebrow">Mi espacio personal</div>
+    <h1>Mis Trabajos</h1>
+    <p>Guarda aquí tus PDFs, documentos Word, imágenes u otros archivos — de Cálculo Integral o de cualquier otra materia —
+    para tenerlos a la mano mientras estudias.</p>
+  </div>
+
+  <div class="storage-note">
+    📌 Estos archivos se guardan <b>solo en este navegador</b> (usando IndexedDB), porque el sitio vive en GitHub Pages
+    y no tiene un servidor propio. No se suben a internet ni se comparten con nadie, pero tampoco quedan respaldados:
+    si limpias los datos del navegador, se pierden. Úsalo como acceso rápido, no como tu única copia.
+  </div>
+
+  <div class="card">
+    <h3>Subir un archivo</h3>
+    <div class="upload-box" id="drop-zone">
+      <label class="btn" for="file-input">Elegir archivo</label>
+      <input type="file" id="file-input" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.gif,.webp,.xls,.xlsx,.txt">
+      <p style="margin:0.75rem 0 0;">o arrastra y suelta aquí (PDF, Word, imágenes, Excel...)</p>
+      <div class="upload-form">
+        <select id="materia-select">
+          <option value="Cálculo Integral">Cálculo Integral</option>
+          <option value="Desarrollo de Software">Desarrollo de Software</option>
+          <option value="Otra materia">Otra materia</option>
+        </select>
+        <input type="text" id="nota-input" placeholder="Nota opcional (ej: 'Taller parcial 1')">
+      </div>
+    </div>
+  </div>
+
+  <div class="filters" id="filters"></div>
+  <ul class="works-list" id="works-list"></ul>
+  <p id="empty-msg" style="display:none;color:var(--paper-dim);">Todavía no has guardado ningún trabajo.</p>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="../assets/js/modules-catalog.js"></script>
+<script src="../assets/js/common.js"></script>
+<script src="../assets/js/storage.js"></script>
+<script>
+  initSite("../");
+
+  const fileInput = document.getElementById("file-input");
+  const dropZone = document.getElementById("drop-zone");
+  const materiaSelect = document.getElementById("materia-select");
+  const notaInput = document.getElementById("nota-input");
+  const worksList = document.getElementById("works-list");
+  const emptyMsg = document.getElementById("empty-msg");
+  const filtersEl = document.getElementById("filters");
+  let currentFilter = "Todas";
+
+  async function handleFile(file) {
+    if (!file) return;
+    await saveWork(file, materiaSelect.value, notaInput.value.trim());
+    notaInput.value = "";
+    fileInput.value = "";
+    await refresh();
+  }
+
+  fileInput.addEventListener("change", (e) => handleFile(e.target.files[0]));
+
+  ["dragover", "dragleave", "drop"].forEach((evt) => {
+    dropZone.addEventListener(evt, (e) => e.preventDefault());
+  });
+  dropZone.addEventListener("dragover", () => dropZone.classList.add("dragover"));
+  dropZone.addEventListener("dragleave", () => dropZone.classList.remove("dragover"));
+  dropZone.addEventListener("drop", (e) => {
+    dropZone.classList.remove("dragover");
+    handleFile(e.dataTransfer.files[0]);
+  });
+
+  async function refresh() {
+    const works = await listWorks();
+    const materias = ["Todas", ...new Set(works.map((w) => w.materia))];
+    filtersEl.innerHTML = materias.map((m) =>
+      `<button data-materia="${m}" class="${m === currentFilter ? "active" : ""}">${m}</button>`
+    ).join("");
+    filtersEl.querySelectorAll("button").forEach((btn) => {
+      btn.addEventListener("click", () => { currentFilter = btn.dataset.materia; refresh(); });
+    });
+
+    const filtered = currentFilter === "Todas" ? works : works.filter((w) => w.materia === currentFilter);
+    emptyMsg.style.display = filtered.length ? "none" : "block";
+
+    worksList.innerHTML = filtered.map((w) => {
+      const url = URL.createObjectURL(w.blob);
+      const date = new Date(w.fecha).toLocaleDateString("es-CO", { day: "2-digit", month: "short", year: "numeric" });
+      return `
+        <li>
+          <span class="icon">${iconFor(w.tipo)}</span>
+          <div class="meta">
+            <div class="name">${w.nombre}</div>
+            <div class="sub">${w.materia} · ${formatBytes(w.tamano)} · ${date}${w.nota ? " · " + w.nota : ""}</div>
+          </div>
+          <div class="actions">
+            <a href="${url}" download="${w.nombre}">Descargar</a>
+            <button data-id="${w.id}" class="delete-btn">Eliminar</button>
+          </div>
+        </li>`;
+    }).join("");
+
+    worksList.querySelectorAll(".delete-btn").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        await deleteWork(parseInt(btn.dataset.id, 10));
+        refresh();
+      });
+    });
+  }
+
+  refresh();
+</script>
+</body>
+</html>

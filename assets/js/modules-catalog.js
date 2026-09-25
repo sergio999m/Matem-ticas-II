@@ -1,0 +1,51 @@
+/*
+ * modules-catalog.js
+ * -------------------
+ * Fuente única de verdad sobre los 14 módulos del curso.
+ * La usan: el buscador (search.js), el home (index.html) y las
+ * páginas "Próximamente" de los módulos 7-14.
+ */
+const MODULES_CATALOG = [
+  { id: 1, title: "Sumas de Riemann", section: "numericos", status: "activo", phase: "Fase 1",
+    path: "modulo-01/index.html",
+    keywords: ["riemann", "suma izquierda", "suma derecha", "punto medio suma", "rectangulos", "aproximacion rectangulos", "ln", "rn", "mn"] },
+  { id: 2, title: "Regla del Trapecio", section: "numericos", status: "activo", phase: "Fase 1",
+    path: "modulo-02/index.html",
+    keywords: ["trapecio", "regla trapecio", "tn", "trapezoidal"] },
+  { id: 3, title: "Regla del Punto Medio", section: "numericos", status: "activo", phase: "Fase 1",
+    path: "modulo-03/index.html",
+    keywords: ["punto medio", "regla punto medio", "midpoint", "mn"] },
+  { id: 4, title: "Regla de Simpson", section: "numericos", status: "activo", phase: "Fase 1",
+    path: "modulo-04/index.html",
+    keywords: ["simpson", "regla simpson", "parabolas", "sn"] },
+  { id: 5, title: "Integral Definida y Área bajo la Curva", section: "numericos", status: "activo", phase: "Fase 1",
+    path: "modulo-05/index.html",
+    keywords: ["integral definida", "area bajo la curva", "teorema fundamental del calculo", "area entre curvas", "tfc"] },
+  { id: 6, title: "Integración Directa", section: "integracion", status: "activo", phase: "Fase 1",
+    path: "modulo-06/index.html",
+    keywords: ["directa", "integracion directa", "potencias basicas", "antiderivada simple", "formula basica"] },
+  { id: 7, title: "Sustitución (Potencias)", section: "integracion", status: "proximamente", phase: "Fase 2",
+    path: "modulo-07/index.html",
+    keywords: ["sustitucion", "cambio de variable", "potencias", "u sustitucion"] },
+  { id: 8, title: "Integrales Exponenciales", section: "integracion", status: "proximamente", phase: "Fase 2",
+    path: "modulo-08/index.html",
+    keywords: ["exponenciales", "e^x", "integrales exponenciales"] },
+  { id: 9, title: "Integrales Logarítmicas", section: "integracion", status: "proximamente", phase: "Fase 2",
+    path: "modulo-09/index.html",
+    keywords: ["logaritmicas", "ln x", "integrales logaritmicas"] },
+  { id: 10, title: "Integrales Trigonométricas", section: "integracion", status: "proximamente", phase: "Fase 2",
+    path: "modulo-10/index.html",
+    keywords: ["trigonometricas", "seno", "coseno", "tangente", "sec", "csc"] },
+  { id: 11, title: "Trigonométricas Inversas", section: "integracion", status: "proximamente", phase: "Fase 3",
+    path: "modulo-11/index.html",
+    keywords: ["trigonometricas inversas", "arcsin", "arctan", "arco seno", "arco tangente"] },
+  { id: 12, title: "Hiperbólicas Inversas", section: "integracion", status: "proximamente", phase: "Fase 3",
+    path: "modulo-12/index.html",
+    keywords: ["hiperbolicas inversas", "hiperbolicas", "senh", "cosh"] },
+  { id: 13, title: "Trinomio ax² + bx + c", section: "integracion", status: "proximamente", phase: "Fase 3",
+    path: "modulo-13/index.html",
+    keywords: ["trinomio", "completar cuadrado", "ax2+bx+c"] },
+  { id: 14, title: "Integración por Partes", section: "integracion", status: "proximamente", phase: "Fase 3",
+    path: "modulo-14/index.html",
+    keywords: ["partes", "integracion por partes", "liate", "udv"] },
+];

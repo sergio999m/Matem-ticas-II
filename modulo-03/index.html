@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Módulo 3 · Regla del Punto Medio — Mate II</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<link rel="stylesheet" href="../assets/css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+</head>
+<body>
+<div id="site-header"></div>
+
+<main>
+  <div class="module-header">
+    <div class="eyebrow">Módulo 03 · Sección A — Métodos Numéricos</div>
+    <h1>Regla del Punto Medio</h1>
+    <p>Es una suma de Riemann especial: la altura de cada rectángulo se toma en el punto medio del subintervalo.
+    Suele cancelar errores por exceso y por defecto, dando mejor precisión que las sumas izquierda/derecha.</p>
+  </div>
+
+  <div class="card">
+    <h3>Fórmula</h3>
+    <div class="formula">$$M_n=\Delta x\sum_{i=1}^{n} f(\bar{x}_i),\qquad \bar{x}_i=\frac{x_{i-1}+x_i}{2},\qquad \Delta x=\frac{b-a}{n}$$</div>
+  </div>
+
+  <div class="card">
+    <h3>Visualizador interactivo</h3>
+    <p>Función de ejemplo: $f(x)=x^2$ en $[0,2]$.</p>
+    <div class="controls">
+      <label>n = <output id="n-out">4</output>
+        <input type="range" id="n-slider" min="1" max="40" value="4">
+      </label>
+    </div>
+    <div id="mid-plot" class="viz-box"></div>
+    <div class="result-line">Aproximación: <b id="mid-result">—</b> · Valor exacto: <b>2.6667</b></div>
+  </div>
+
+  <div class="card">
+    <h3>Ejemplos resueltos</h3>
+    <div class="example">
+      <h4>Ejemplo 1 — $M_4$ para $\int_0^2 x^2\,dx$</h4>
+      <p>Puntos medios: $0.25, 0.75, 1.25, 1.75$.</p>
+      <div class="formula">$$M_4=0.5(0.25^2+0.75^2+1.25^2+1.75^2)=0.5(0.0625+0.5625+1.5625+3.0625)=2.625$$</div>
+    </div>
+    <div class="example">
+      <h4>Ejemplo 2 — $M_5$ para $\int_1^3 \frac{1}{x}\,dx$</h4>
+      <p>$\Delta x=0.4$; puntos medios: $1.2,1.6,2.0,2.4,2.8$.</p>
+      <div class="formula">$$M_5=0.4\left(\frac{1}{1.2}+\frac{1}{1.6}+\frac{1}{2.0}+\frac{1}{2.4}+\frac{1}{2.8}\right)\approx 1.0865$$</div>
+      <p>Muy cerca del valor exacto $\ln 3\approx1.0986$: mejor que $L_5$ y $R_5$ del Módulo 1.</p>
+    </div>
+  </div>
+
+  <a class="back-link" href="../index.html">← Volver a todos los módulos</a>
+</main>
+
+<div id="site-footer"></div>
+<script src="../assets/js/modules-catalog.js"></script>
+<script src="../assets/js/common.js"></script>
+<script src="../assets/js/visualizers.js"></script>
+<script>
+  initSite("../");
+  const f = (x) => x * x;
+  const slider = document.getElementById("n-slider");
+  const nOut = document.getElementById("n-out");
+  const resultEl = document.getElementById("mid-result");
+  function redraw() {
+    const n = parseInt(slider.value, 10);
+    nOut.textContent = n;
+    const sum = drawRiemann("mid-plot", f, 0, 2, n, "mid");
+    resultEl.textContent = sum.toFixed(4);
+  }
+  slider.addEventListener("input", redraw);
+  redraw();
+</script>
+</body>
+</html>
