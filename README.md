@@ -5,31 +5,30 @@ por un estudiante de Tecnología en Desarrollo de Software (UTP). Al finalizar e
 semestre se convertirá en un recurso de estudio compartido con la red académica,
 cubriendo los 14 métodos de integración y aproximación numérica vistos en el curso.
 
-**Este repositorio corresponde a la Fase 1** del proyecto (Parcial 1): estructura
-completa de navegación de los 14 módulos + desarrollo funcional de los módulos 1-6.
+**Estado actual:** proyecto completo. Incluye los 14 módulos del taller más un módulo 15
+(Sólidos de Revolución), todos con teoría, ejemplos resueltos y visualizador interactivo.
 
 ## Visión del proyecto completo
 
 | Fase | Entrega | Módulos |
 |---|---|---|
-| Fase 1 (este parcial) | Parcial 1 | 1-6: Riemann, Trapecio, Punto Medio, Simpson, Área, Directa |
+| Fase 1 | Parcial 1 | 1-6: Riemann, Trapecio, Punto Medio, Simpson, Área, Directa |
 | Fase 2 | Parcial 2 | 7-10: Sustitución, Exponenciales, Logarítmicas, Trigonométricas |
-| Fase 3 | Proyecto final | 11-14: Trig. inversas, Hiperbólicas inversas, Trinomio, Partes + producto final |
+| Fase 3 | Proyecto final | 11-15: Trig. inversas, Hiperbólicas inversas, Trinomio, Partes, Sólidos de revolución |
 
 ## Arquitectura del proyecto
 
 ```
 mate2-mundo-por-explorar/
 ├── index.html                 # Home: navegación a los 14 módulos + buscador
-├── modulo-01/ … modulo-06/    # Módulos activos (Fase 1): teoría + ejemplos + visualizador
-├── modulo-07/ … modulo-14/    # Placeholders "Próximamente" (Fase 2 y 3)
+├── modulo-01/ … modulo-15/    # Un módulo por carpeta: teoría + ejemplos + visualizador
 ├── mis-trabajos/              # Gestor personal de archivos (PDF, Word, imágenes...)
 ├── assets/
 │   ├── css/style.css          # Sistema de diseño compartido por TODO el sitio
 │   └── js/
 │       ├── modules-catalog.js # Fuente única de datos de los 14 módulos
 │       ├── common.js          # Header, footer y buscador inteligente
-│       ├── visualizers.js     # Funciones Plotly reutilizables (Riemann, Trapecio...)
+│       ├── visualizers.js     # Funciones Plotly reutilizables (Riemann, Trapecio, sólido 3D...)
 │       └── storage.js         # Lógica de IndexedDB para "Mis Trabajos"
 └── python/                    # Scripts Python para Google Colab (ver su propio README)
     ├── metodos_numericos.py

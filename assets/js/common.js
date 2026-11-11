@@ -56,7 +56,7 @@ function renderSearchResults(matches, basePath, query) {
   const box = document.getElementById("search-results");
   if (!matches.length) {
     box.innerHTML = query
-      ? `<div class="search-empty">Sin resultados para "${query}". Módulos disponibles ahora: Riemann, Trapecio, Punto Medio, Simpson, Área, Directa.</div>`
+      ? `<div class="search-empty">Sin resultados para "${query}". Prueba con: Riemann, Simpson, partes, exponenciales, sólidos de revolución.</div>`
       : "";
     box.classList.toggle("open", !!query);
     return;

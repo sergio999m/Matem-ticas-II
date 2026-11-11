@@ -189,3 +189,36 @@ function drawAntiderivative(containerId, f, F, a, b) {
     { x: curveF.xs, y: curveF.ys, name: "F(x)", type: "scatter", mode: "lines", line: { color: "#e8a33d", width: 2.5 } },
   ], { showlegend: true, legend: { font: { color: "#b9c0d6" } } });
 }
+
+/* ---------- Módulo 15: sólido de revolución (giro alrededor del eje x) ----
+ * Dibuja la superficie que se obtiene al girar y=f(x) (entre a y b)
+ * alrededor del eje x, y devuelve el volumen por el método de discos:
+ *     V = pi * integral de [f(x)]^2 dx   (calculada aquí con Simpson).
+ */
+function drawSolid(containerId, f, a, b) {
+  const nx = 60, nt = 48;
+  const xs = linspace(a, b, nx);
+  const ths = linspace(0, 2 * Math.PI, nt);
+  const X = [], Y = [], Z = [];
+  xs.forEach((x) => {
+    const r = Math.abs(f(x));
+    X.push(ths.map(() => x));
+    Y.push(ths.map((t) => r * Math.cos(t)));
+    Z.push(ths.map((t) => r * Math.sin(t)));
+  });
+  const axis = { gridcolor: "#2a3555", zerolinecolor: "#2a3555", color: "#b9c0d6" };
+  Plotly.newPlot(containerId, [{
+    type: "surface", x: X, y: Y, z: Z, showscale: false,
+    colorscale: [[0, "#4fb3ac"], [1, "#e8a33d"]], opacity: 0.92,
+  }], {
+    paper_bgcolor: "transparent",
+    margin: { t: 10, r: 0, b: 0, l: 0 },
+    scene: { xaxis: axis, yaxis: axis, zaxis: axis, aspectmode: "data" },
+  }, { displayModeBar: false, responsive: true });
+
+  // Volumen con Simpson (n par)
+  const n = 200, dx = (b - a) / n;
+  let s = Math.pow(f(a), 2) + Math.pow(f(b), 2);
+  for (let i = 1; i < n; i++) s += (i % 2 === 0 ? 2 : 4) * Math.pow(f(a + i * dx), 2);
+  return Math.PI * (dx / 3) * s;
+}

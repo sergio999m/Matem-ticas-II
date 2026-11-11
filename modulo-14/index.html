@@ -3,36 +3,70 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Módulo 14 — Próximamente — Mate II</title>
+<title>Módulo 14 · Integración por Partes — Mate II</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 <link rel="stylesheet" href="../assets/css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
 </head>
-<body data-modulo-id="14">
+<body>
 <div id="site-header"></div>
+
 <main>
-  <div id="placeholder-content"></div>
+  <div class="module-header">
+    <div class="eyebrow">Módulo 14 · Sección B — Métodos de Integración</div>
+    <h1>Integración por Partes</h1>
+    <p>Se usa cuando el integrando es un producto de dos tipos de función. Se elige $u$ con la regla LIATE (Logarítmicas, Inversas trigonométricas, Algebraicas, Trigonométricas, Exponenciales) y se integra $dv$.</p>
+  </div>
+
+  <div class="card">
+    <h3>Fórmula de referencia</h3>
+    <div class="formula">$$\int u\,dv=u\,v-\int v\,du$$</div>
+  </div>
+
+  <div class="card">
+    <h3>Gráfica de f(x) y su antiderivada F(x)</h3>
+    <p>Ejemplo: $f(x)=x\arctan x$ y $F(x)=\dfrac{x^2+1}{2}\arctan x-\dfrac{x}{2}$.</p>
+    <div id="viz-plot" class="viz-box"></div>
+    <div class="result-line">La curva dorada es $F(x)$; la teal es $f(x)$. Comprueba que $F'(x)=f(x)$.</div>
+  </div>
+
+  <div class="card">
+    <h3>Ejemplos resueltos</h3>
+    <div class="example">
+      <h4>Ejemplo 1 — $\int x\arctan x\,dx$</h4>
+      <p>Por LIATE: $u=\arctan x$, $dv=x\,dx$, luego $du=\tfrac{dx}{1+x^2}$ y $v=\tfrac{x^2}{2}$.</p>
+      <div class="formula">$$\frac{x^2}{2}\arctan x-\frac12\int\frac{x^2}{1+x^2}dx=\frac{x^2}{2}\arctan x-\frac12\left(x-\arctan x\right)+C=\frac{x^2+1}{2}\arctan x-\frac x2+C$$</div>
+    </div>
+    <div class="example">
+      <h4>Ejemplo 2 — $\int \ln(x^2+1)\,dx$</h4>
+      <p>$u=\ln(x^2+1)$, $dv=dx$; entonces $du=\tfrac{2x}{x^2+1}dx$ y $v=x$.</p>
+      <div class="formula">$$x\ln(x^2+1)-2\int\frac{x^2}{x^2+1}dx=x\ln(x^2+1)-2x+2\arctan x+C$$</div>
+    </div>
+    <div class="example">
+      <h4>Ejemplo 3 — $\int e^{ax}\cos(bx)\,dx$</h4>
+      <p>Se integra por partes dos veces; la integral original reaparece y se despeja.</p>
+      <div class="formula">$$I=\frac{e^{ax}\,(a\cos bx+b\sin bx)}{a^2+b^2}+C$$</div>
+      <p>Esta es la integral cíclica: tras la segunda aplicación aparece $-\frac{b^2}{a^2}I$ al lado derecho y se pasa a la izquierda.</p>
+    </div>
+  </div>
+
   <a class="back-link" href="../index.html">← Volver a todos los módulos</a>
 </main>
+
 <div id="site-footer"></div>
 <script src="../assets/js/modules-catalog.js"></script>
 <script src="../assets/js/common.js"></script>
+<script src="../assets/js/visualizers.js"></script>
 <script>
   initSite("../");
-  const modId = parseInt(document.body.dataset.moduloId, 10);
-  const mod = MODULES_CATALOG.find(m => m.id === modId);
-  document.title = mod.title + " — Próximamente — Mate II";
-  document.getElementById("placeholder-content").innerHTML = `
-    <div class="module-header">
-      <div class="eyebrow">Módulo ${String(mod.id).padStart(2,"0")} · Sección B — Métodos de Integración</div>
-      <h1>${mod.title}</h1>
-    </div>
-    <div class="placeholder-box">
-      <div class="badge">Próximamente · ${mod.phase}</div>
-      <p style="margin:0 auto;">Este módulo se desarrollará como parte de ${mod.phase} del proyecto semestral
-      "Mate II: Un Mundo por Explorar". Vuelve más adelante o usa el buscador para revisar los módulos ya disponibles.</p>
-    </div>
-  `;
+  // f(x)=x arctan x y su antiderivada F(x)=((x²+1)/2) arctan x − x/2 (misma función de graficación del Módulo 6)
+  const f = (x) => x*Math.atan(x);
+  const F = (x) => ((x*x+1)/2)*Math.atan(x)-x/2;
+  drawAntiderivative("viz-plot", f, F, -4, 4);
 </script>
 </body>
 </html>
