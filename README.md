@@ -89,5 +89,4 @@ página `mis-trabajos/index.html` para el detalle de esa limitación.
 
 Herramientas usadas: Claude (Anthropic), para generar la estructura base del sitio,
 los visualizadores en Plotly.js y los scripts de Python documentados en `/python`.
-*(Completa aquí, antes de entregar, qué ajustaste manualmente o generaste con Qwen
-Coder, como exige la Parte II del parcial.)*
+
