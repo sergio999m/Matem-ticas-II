@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Módulo 10 · Integrales Trigonométricas — Mate II</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<link rel="stylesheet" href="../assets/css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+</head>
+<body>
+<div id="site-header"></div>
+
+<main>
+  <div class="module-header">
+    <div class="eyebrow">Módulo 10 · Sección B — Métodos de Integración</div>
+    <h1>Integrales Trigonométricas</h1>
+    <p>Combinan las integrales básicas de seno, coseno y tangente con identidades trigonométricas y sustituciones simples para reducir el integrando.</p>
+  </div>
+
+  <div class="card">
+    <h3>Fórmulas de referencia</h3>
+    <div class="formula">$$\int\sin u\,du=-\cos u+C\quad\int\cos u\,du=\sin u+C\quad\int\tan u\,du=-\ln|\cos u|+C$$$$\int\sec^2u\,du=\tan u+C\quad\int\csc^2u\,du=-\cot u+C$$</div>
+  </div>
+
+  <div class="card">
+    <h3>Gráfica de f(x) y su antiderivada F(x)</h3>
+    <p>Ejemplo: $f(x)=(\cos x-\sin x)^2$ y $F(x)=x+\tfrac{\cos 2x}{2}$.</p>
+    <div id="viz-plot" class="viz-box"></div>
+    <div class="result-line">La curva dorada es $F(x)$; la teal es $f(x)$. Comprueba que $F'(x)=f(x)$.</div>
+  </div>
+
+  <div class="card">
+    <h3>Ejemplos resueltos</h3>
+    <div class="example">
+      <h4>Ejemplo 1 — $\int(\cos x-\sin x)^2\,dx$</h4>
+      <p>Se expande y se usa $\cos^2x+\sin^2x=1$ y $2\sin x\cos x=\sin 2x$.</p>
+      <div class="formula">$$\int(1-\sin 2x)\,dx=x+\frac{\cos 2x}{2}+C$$</div>
+    </div>
+    <div class="example">
+      <h4>Ejemplo 2 — $\int \dfrac{\sin 3x}{\cos^4(3x)}\,dx$</h4>
+      <p>Sea $u=\cos 3x$, entonces $du=-3\sin3x\,dx$.</p>
+      <div class="formula">$$-\frac13\int u^{-4}\,du=\frac{1}{9u^3}+C=\frac{1}{9\cos^3(3x)}+C$$</div>
+    </div>
+    <div class="example">
+      <h4>Ejemplo 3 — $\int \dfrac{dx}{\cos^2x\,\sqrt{\tan x-1}}$</h4>
+      <p>Como $\tfrac{1}{\cos^2x}=\sec^2x$, sea $u=\tan x-1$, $du=\sec^2x\,dx$.</p>
+      <div class="formula">$$\int u^{-1/2}\,du=2\sqrt{u}+C=2\sqrt{\tan x-1}+C$$</div>
+    </div>
+  </div>
+
+  <a class="back-link" href="../index.html">← Volver a todos los módulos</a>
+</main>
+
+<div id="site-footer"></div>
+<script src="../assets/js/modules-catalog.js"></script>
+<script src="../assets/js/common.js"></script>
+<script src="../assets/js/visualizers.js"></script>
+<script>
+  initSite("../");
+  // f(x)=(cos x − sin x)² y su antiderivada F(x)=x+cos(2x)/2 (misma función de graficación del Módulo 6)
+  const f = (x) => Math.pow(Math.cos(x)-Math.sin(x),2);
+  const F = (x) => x+Math.cos(2*x)/2;
+  drawAntiderivative("viz-plot", f, F, 0, 6.283);
+</script>
+</body>
+</html>

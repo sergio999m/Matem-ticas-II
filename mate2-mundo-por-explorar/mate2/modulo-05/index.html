@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Módulo 5 · Integral Definida y Área — Mate II</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<link rel="stylesheet" href="../assets/css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+</head>
+<body>
+<div id="site-header"></div>
+
+<main>
+  <div class="module-header">
+    <div class="eyebrow">Módulo 05 · Sección A — Métodos Numéricos</div>
+    <h1>Integral Definida y Área bajo la Curva</h1>
+    <p>El Teorema Fundamental del Cálculo conecta la integral definida con la antiderivada: ya no hace falta
+    aproximar con rectángulos o trapecios si conocemos F(x).</p>
+  </div>
+
+  <div class="card">
+    <h3>Teorema Fundamental del Cálculo</h3>
+    <div class="formula">$$\int_a^b f(x)\,dx = F(b)-F(a) \qquad \text{Área}=\int_a^b |f(x)|\,dx \qquad \text{Área entre curvas}=\int_a^b |f(x)-g(x)|\,dx$$</div>
+  </div>
+
+  <div class="card">
+    <h3>Visualizador interactivo — Área bajo la curva</h3>
+    <p>Función: $f(x)=\sin(x)+1.2$. Ajusta los límites $a$ y $b$.</p>
+    <div class="controls">
+      <label>a = <output id="a-out">0</output>
+        <input type="range" id="a-slider" min="0" max="5" step="0.1" value="0">
+      </label>
+      <label>b = <output id="b-out">3.14</output>
+        <input type="range" id="b-slider" min="0" max="6.28" step="0.1" value="3.14">
+      </label>
+    </div>
+    <div id="area-plot" class="viz-box"></div>
+    <div class="result-line">Área ≈ <b id="area-result">—</b></div>
+  </div>
+
+  <div class="card">
+    <h3>Ejemplos resueltos</h3>
+    <div class="example">
+      <h4>Ejemplo 1 — $\int_0^2 (3x^2-2x+1)\,dx$</h4>
+      <div class="formula">$$F(x)=x^3-x^2+x \ \Rightarrow\ F(2)-F(0)=(8-4+2)-0=6$$</div>
+    </div>
+    <div class="example">
+      <h4>Ejemplo 2 — Área entre $f(x)=x^2$ y $g(x)=2x$</h4>
+      <p>Se cortan en $x=0$ y $x=2$ (donde $x^2=2x$). En ese intervalo $g(x)\ge f(x)$.</p>
+      <div class="formula">$$\text{Área}=\int_0^2 (2x-x^2)\,dx=\left[x^2-\frac{x^3}{3}\right]_0^2=4-\frac{8}{3}=\frac{4}{3}$$</div>
+    </div>
+  </div>
+
+  <a class="back-link" href="../index.html">← Volver a todos los módulos</a>
+</main>
+
+<div id="site-footer"></div>
+<script src="../assets/js/modules-catalog.js"></script>
+<script src="../assets/js/common.js"></script>
+<script src="../assets/js/visualizers.js"></script>
+<script>
+  initSite("../");
+  const f = (x) => Math.sin(x) + 1.2;
+  const aSlider = document.getElementById("a-slider");
+  const bSlider = document.getElementById("b-slider");
+  const aOut = document.getElementById("a-out");
+  const bOut = document.getElementById("b-out");
+  const resultEl = document.getElementById("area-result");
+
+  // Integral aproximada por Simpson con n=200 (solo para MOSTRAR el resultado numérico).
+  function integrate(fn, a, b) {
+    const n = 200;
+    const dx = (b - a) / n;
+    let s = fn(a) + fn(b);
+    for (let i = 1; i < n; i++) s += (i % 2 === 0 ? 2 : 4) * fn(a + i * dx);
+    return (dx / 3) * s;
+  }
+
+  function redraw() {
+    let a = parseFloat(aSlider.value);
+    let b = parseFloat(bSlider.value);
+    if (a >= b) b = a + 0.1;
+    aOut.textContent = a.toFixed(2);
+    bOut.textContent = b.toFixed(2);
+    drawArea("area-plot", f, a, b);
+    resultEl.textContent = integrate(f, a, b).toFixed(4);
+  }
+  aSlider.addEventListener("input", redraw);
+  bSlider.addEventListener("input", redraw);
+  redraw();
+</script>
+</body>
+</html>

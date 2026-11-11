@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Módulo 1 · Sumas de Riemann — Mate II</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<link rel="stylesheet" href="../assets/css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+</head>
+<body>
+<div id="site-header"></div>
+
+<main>
+  <div class="module-header">
+    <div class="eyebrow">Módulo 01 · Sección A — Métodos Numéricos</div>
+    <h1>Sumas de Riemann</h1>
+    <p>Aproximan el área bajo una curva sumando rectángulos. Según dónde se tome la altura del rectángulo
+    en cada subintervalo, se obtienen tres variantes: suma izquierda, suma derecha y punto medio.</p>
+  </div>
+
+  <div class="card">
+    <h3>Fórmulas</h3>
+    <div class="formula">
+      $$\Delta x = \frac{b-a}{n} \qquad
+      L_n=\sum_{i=0}^{n-1} f(x_i)\Delta x \qquad
+      R_n=\sum_{i=1}^{n} f(x_i)\Delta x \qquad
+      M_n=\sum_{i=1}^{n} f(\bar{x}_i)\Delta x,\ \ \bar{x}_i=\frac{x_{i-1}+x_i}{2}$$
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Visualizador interactivo</h3>
+    <p>Función de ejemplo: <span class="formula">$f(x)=x^2$</span> en $[0,2]$. Ajusta $n$ y el tipo de suma para ver cómo la aproximación converge al valor exacto de la integral ($\int_0^2 x^2\,dx = 8/3 \approx 2.667$).</p>
+    <div class="controls">
+      <label>n = <output id="n-out">4</output>
+        <input type="range" id="n-slider" min="1" max="40" value="4">
+      </label>
+      <label>Tipo
+        <select id="mode-select" style="background:var(--ink-soft);color:var(--paper);border:1px solid var(--line);border-radius:4px;padding:0.3rem;">
+          <option value="left">Suma izquierda (Lₙ)</option>
+          <option value="right">Suma derecha (Rₙ)</option>
+          <option value="mid" selected>Punto medio (Mₙ)</option>
+        </select>
+      </label>
+    </div>
+    <div id="riemann-plot" class="viz-box"></div>
+    <div class="result-line">Aproximación: <b id="riemann-result">—</b> · Valor exacto: <b>2.6667</b></div>
+  </div>
+
+  <div class="card">
+    <h3>Ejemplos resueltos</h3>
+    <div class="example">
+      <h4>Ejemplo 1 — L₄, R₄ y M₄ para f(x) = x² en [0,2]</h4>
+      <p>Con $n=4$, $\Delta x = 0.5$, los puntos son $x_0=0, x_1=0.5, x_2=1, x_3=1.5, x_4=2$.</p>
+      <div class="formula">$$L_4 = 0.5(0^2+0.5^2+1^2+1.5^2) = 0.5(0+0.25+1+2.25)=1.75$$
+      $$R_4 = 0.5(0.5^2+1^2+1.5^2+2^2) = 0.5(0.25+1+2.25+4)=3.75$$
+      $$M_4 = 0.5(0.25^2+0.75^2+1.25^2+1.75^2) = 0.5(0.0625+0.5625+1.5625+3.0625)=2.625$$</div>
+      <p>El valor exacto es $8/3\approx 2.667$: nota cómo $M_4$ es la aproximación más cercana.</p>
+    </div>
+    <div class="example">
+      <h4>Ejemplo 2 — Aproximar $\int_1^3 \frac{1}{x}\,dx$ con $n=5$ (suma derecha)</h4>
+      <p>$\Delta x = 0.4$. Puntos derechos: $x=1.4,1.8,2.2,2.6,3.0$.</p>
+      <div class="formula">$$R_5 = 0.4\left(\frac{1}{1.4}+\frac{1}{1.8}+\frac{1}{2.2}+\frac{1}{2.6}+\frac{1}{3.0}\right) \approx 0.4(0.714+0.556+0.455+0.385+0.333)\approx 0.9743$$</div>
+      <p>Valor exacto: $\ln 3 \approx 1.0986$. La suma derecha subestima porque $1/x$ es decreciente.</p>
+    </div>
+  </div>
+
+  <a class="back-link" href="../index.html">← Volver a todos los módulos</a>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="../assets/js/modules-catalog.js"></script>
+<script src="../assets/js/common.js"></script>
+<script src="../assets/js/visualizers.js"></script>
+<script>
+  initSite("../");
+
+  const f = (x) => x * x;
+  const slider = document.getElementById("n-slider");
+  const nOut = document.getElementById("n-out");
+  const modeSelect = document.getElementById("mode-select");
+  const resultEl = document.getElementById("riemann-result");
+
+  function redraw() {
+    const n = parseInt(slider.value, 10);
+    nOut.textContent = n;
+    const sum = drawRiemann("riemann-plot", f, 0, 2, n, modeSelect.value);
+    resultEl.textContent = sum.toFixed(4);
+  }
+  slider.addEventListener("input", redraw);
+  modeSelect.addEventListener("change", redraw);
+  redraw();
+</script>
+</body>
+</html>

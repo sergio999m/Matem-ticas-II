@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Módulo 8 · Integrales Exponenciales — Mate II</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<link rel="stylesheet" href="../assets/css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+</head>
+<body>
+<div id="site-header"></div>
+
+<main>
+  <div class="module-header">
+    <div class="eyebrow">Módulo 08 · Sección B — Métodos de Integración</div>
+    <h1>Integrales Exponenciales</h1>
+    <p>Son las integrales cuyo integrando contiene $e^x$ o una base constante $a^x$. Con la sustitución adecuada, casi todas se reducen a las dos fórmulas básicas.</p>
+  </div>
+
+  <div class="card">
+    <h3>Fórmulas de referencia</h3>
+    <div class="formula">$$\int e^u\,du=e^u+C\qquad \int a^x\,dx=\frac{a^x}{\ln a}+C\quad (a>0,\ a\neq1)$$</div>
+  </div>
+
+  <div class="card">
+    <h3>Gráfica de f(x) y su antiderivada F(x)</h3>
+    <p>Ejemplo: $f(x)=e^{2x}+3e^x$ y $F(x)=\tfrac{e^{2x}}{2}+3e^x$.</p>
+    <div id="viz-plot" class="viz-box"></div>
+    <div class="result-line">La curva dorada es $F(x)$; la teal es $f(x)$. Comprueba que $F'(x)=f(x)$.</div>
+  </div>
+
+  <div class="card">
+    <h3>Ejemplos resueltos</h3>
+    <div class="example">
+      <h4>Ejemplo 1 — $\int (e^{2x}+3e^x)\,dx$</h4>
+      <p>Cada término se integra por separado; en el primero se usa $u=2x$.</p>
+      <div class="formula">$$\int e^{2x}dx+3\int e^x dx=\frac{e^{2x}}{2}+3e^x+C$$</div>
+    </div>
+    <div class="example">
+      <h4>Ejemplo 2 — $\int 5^x e^x\,dx$</h4>
+      <p>Se agrupa la base: $5^xe^x=(5e)^x$ y se aplica $\int a^x dx$ con $a=5e$.</p>
+      <div class="formula">$$\int (5e)^x\,dx=\frac{(5e)^x}{\ln(5e)}+C=\frac{5^xe^x}{1+\ln 5}+C$$</div>
+    </div>
+    <div class="example">
+      <h4>Ejemplo 3 — $\int \dfrac{dx}{e^x+e^{-x}}$</h4>
+      <p>Se multiplica numerador y denominador por $e^x$ y se hace $u=e^x$, $du=e^x\,dx$.</p>
+      <div class="formula">$$\int\frac{e^x\,dx}{e^{2x}+1}=\int\frac{du}{u^2+1}=\arctan(e^x)+C$$</div>
+    </div>
+  </div>
+
+  <a class="back-link" href="../index.html">← Volver a todos los módulos</a>
+</main>
+
+<div id="site-footer"></div>
+<script src="../assets/js/modules-catalog.js"></script>
+<script src="../assets/js/common.js"></script>
+<script src="../assets/js/visualizers.js"></script>
+<script>
+  initSite("../");
+  // f(x)=e^{2x}+3e^x y su antiderivada F(x)=e^{2x}/2+3e^x (misma función de graficación del Módulo 6)
+  const f = (x) => Math.exp(2*x)+3*Math.exp(x);
+  const F = (x) => Math.exp(2*x)/2+3*Math.exp(x);
+  drawAntiderivative("viz-plot", f, F, -2, 1.5);
+</script>
+</body>
+</html>
