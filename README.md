@@ -1,7 +1,7 @@
 # Mate II: Un Mundo por Explorar
 
 Plataforma web colaborativa de Cálculo Integral, desarrollada como proyecto semestral
-por un estudiante de Tecnología en Desarrollo de Software (UTP). Al finalizar el
+por estudiante de Tecnología en Desarrollo de Software (UTP). Al finalizar el
 semestre se convertirá en un recurso de estudio compartido con la red académica,
 cubriendo los 14 métodos de integración y aproximación numérica vistos en el curso.
 
